@@ -1,0 +1,60 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* since this paragraph pOne has an inline style of red, then
+* this external style of color blue is not applied,
+* but since it has now conflict with other properties like
+* the background-color from here then this is applied */
+.pOne {
+  color: blue;
+  background-color: grey;
+}
+
+/* next is paragraph two */
+/* id attributes has for specifity */
+.pTwo {
+  color: green;
+}
+
+#idPTwo {
+  color: red;
+}
+/* a combination of class and id has more specifity */
+.pTwo#idPTwo {
+  color: pink;
+}
+
+/* next is paragraph three inside a div parent element*/
+.containerOne{
+  background-color: gray;
+  display: inline-block;
+  border-radius: .3rem;
+  padding: .4rem;
+  /* adding color, this should make the children have font color from this selector*/
+  color: #FF0000;
+  font-weight: bold;
+}
+
+#idPThree {
+  color: red;
+}
+
+.pThree {
+  color: white;
+}
+
+/* Next is paragraph four also inside a div parent element */
+/* even though an id is used, the pFour class is directly pointed in the element
+* so making it have higher specifity */
+#idPFour {
+  color: grey;
+}
+
+.pFour {
+  color: lime;
+}
+
+
+
