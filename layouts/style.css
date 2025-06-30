@@ -10,11 +10,9 @@ body {
 }
 
 .box {
-  float: none;
   display: inline-block;
   border-radius: 10px;
   padding: 4rem;
-  width: 2.8rem;
   margin: .5rem;
 }
 
