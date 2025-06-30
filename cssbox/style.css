@@ -28,13 +28,18 @@ body {
 
 /* next is paragraph three inside a div parent element*/
 .containerOne{
-  background-color: gray;
-  display: inline-block;
+  border: 2px solid black;
   border-radius: .3rem;
-  padding: .4rem;
+  padding: .6rem;
   /* adding color, this should make the children have font color from this selector*/
   color: #FF0000;
   font-weight: bold;
+}
+
+.containerOne::after{
+  content: "";
+  display: block;
+  clear: both;
 }
 
 #idPThree {
@@ -42,14 +47,18 @@ body {
 }
 
 .pThree {
-  color: white;
+  float: right;
+  color: black;
 }
 
 /* Next is paragraph four also inside a div parent element */
 /* even though an id is used, the pFour class is directly pointed in the element
 * so making it have higher specifity */
 #idPFour {
+  margin: .4rem;
   color: grey;
+  outline: 2px solid green;
+  border: 2px solid black;
 }
 
 .pFour {
