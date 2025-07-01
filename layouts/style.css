@@ -3,10 +3,16 @@ body {
   margin: 0;
 }
 
+/* Base container style */
 .container {
-  text-align: center;
   border: 2px solid grey;
   padding: .3rem;
+  margin: .8rem;
+}
+
+/* Float experiment and without Float*/
+.container.float {
+  text-align: center;
 }
 
 .box {
@@ -28,5 +34,5 @@ body {
   background: blue;
 }
 
-
+/* Here starts experiment with flex box */
 
