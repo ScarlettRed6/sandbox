@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: rgb(223, 221, 221);
+}
+
+a {
+    text-decoration: none;
+    color: rgb(64, 63, 63);
+}
+
+a:visited {
+    color: rgb(64, 63, 63);
+}
+
+button {
+    padding: .3rem;
+    border-color: gray;
+    border-radius: .2   rem;
+}
