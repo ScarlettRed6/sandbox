@@ -38,9 +38,12 @@ body {
 .container.flex {
   display: flex;
   gap: .3rem;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  align-content: space-between;
+  height: 50vh;
 }
 
 .boxflex {
