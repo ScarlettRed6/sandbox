@@ -35,4 +35,14 @@ body {
 }
 
 /* Here starts experiment with flex box */
+.container.flex {
+  display: flex;
+  gap: .5rem;
+}
+
+.boxflex {
+  padding: 2rem;
+  border-radius: .6rem;
+}
+
 
