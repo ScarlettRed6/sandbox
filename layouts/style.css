@@ -37,7 +37,10 @@ body {
 /* Here starts experiment with flex box */
 .container.flex {
   display: flex;
-  gap: .5rem;
+  gap: .3rem;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .boxflex {
