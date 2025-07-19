@@ -45,6 +45,7 @@ body {
 }
 
 .boxflex {
+  flex: 1;
   padding: 2rem;
   border-radius: .6rem;
 }
