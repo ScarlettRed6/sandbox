@@ -2,5 +2,21 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: grey;
+    background: #413543;
+    display: grid;
+    place-items: center;
 }
+
+.Login {
+  height: 70vh;
+  width: 100vh;
+  border-radius: .6rem;
+  background: #2D2727;
+}
+
+.Login-splashimage {
+  height: 100px;
+}
+
+
+
