@@ -8,15 +8,19 @@ body {
 }
 
 .Login {
+  position: relative;
   height: 70vh;
   width: 100vh;
   border-radius: .6rem;
   background: #2D2727;
+  display: flex;
 }
 
-.Login-splashimage {
-  height: 100px;
+.container {
+  border: 1px solid white;
+  border-radius: .6rem;
+  height: auto;
+  width: 50vw;
+  margin: .8rem;
 }
-
-
 
