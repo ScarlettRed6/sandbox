@@ -7,20 +7,27 @@ body {
     place-items: center;
 }
 
-.Login {
-  position: relative;
+.login {
   height: 70vh;
   width: 100vh;
   border-radius: .6rem;
   background: #2D2727;
   display: flex;
+  align-items: center;
+  padding: .6rem;
 }
 
 .container {
-  border: 1px solid white;
   border-radius: .6rem;
-  height: auto;
-  width: 50vw;
-  margin: .8rem;
+  height: 100%;
+  width: 50%;
+}
+
+.container.login-image {
+  background-image: url(/Assets/img/2B.jpg);
+  background-position: right;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.7;
 }
 
