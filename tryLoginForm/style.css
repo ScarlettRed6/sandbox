@@ -24,7 +24,7 @@ body {
 }
 
 .container.login-image {
-  background-image: url(/Assets/img/2B.jpg);
+  background-image: url("Assets/img/2B.jpg");
   background-position: right;
   background-size: cover;
   background-repeat: no-repeat;
