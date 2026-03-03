@@ -1,5 +1,5 @@
 const GRIDSIZE = 16;
-const JITTER = 5;
+const JITTER = 0.5;
 const WAVELENGTH = 0.5;
 
 //Generate random hue , saturation and lightness
@@ -22,6 +22,8 @@ function generateJitteredGridPoints(gridsize, jitter) {
             });
         }//End of inner loop
     }//End of outer loop
+    console.log(`Points array length: ${points.length}`);
+    console.log(points);
     return points;
 }//End of jitter generator when drawing points
 
@@ -74,7 +76,7 @@ function triangleOfEdge(e) {
     return Math.floor(e / 3);
 }
 
-function nextHalfEdge(e) {
+/* function nextHalfEdge(e) {
     return (e % 3 === 2) ? e - 2 : e + 1;
 }
 
@@ -84,7 +86,7 @@ function prevHalfEdge(e) {
 
 function edgesOfTriangle(t) {
     return [ 3 * t, 3 * t + 1, 3 * t + 2];
-}
+} */
 
 function drawCellBoundaries(canvas, map) {
     let { points, centers, halfedges, triangles, numEdges } = map;
@@ -103,11 +105,12 @@ function drawCellBoundaries(canvas, map) {
             ctx.stroke();
         }
     }
+    console.log(map.centers);
     ctx.restore();
 }//End of drawCellBoundaries function
 
 //Adding noise, elevations
-function assignElevation(map) {
+/* function assignElevation(map) {
     const noise = new SimplexNoise();
     let { points, numRegions } = map;
     let elevation = [];
@@ -159,8 +162,59 @@ function drawCellColors(canvas, map, colorFn) {
         }//End of if statement
     }//End of outerloop
     ctx.restore();
+} */
+
+
+//Trying MST with kruskal's algorithm
+function kruskalsMST(vertices, map) {
+    let edges = map.halfedges;
+    edges.sort((a, b) => a[2] - b[2]);
+    //console.log(edges);
+    
+    const dsu = new DSU(map.numRegions);
+    let cost = 0;
+    let count = 0;
+    for (const [x,y,w] of edges) {
+        if (dsu.find(x) !== dsu.find(y)) {
+            dsu.unite(x,y);
+            cost += w;
+            if(++count === vertices - 1) break;
+        }
+    }
+    return cost;
+
 }
 
-//drawPoints(document.getElementById("map"), GRIDSIZE, points);
-//drawCellBoundaries(document.getElementById("map"), map);
-drawCellColors(document.getElementById("map"), map, r => map.elevation[r] < 0.5? "hsl(240, 30%, 50%)" : "hsl(90, 20%, 50%)");
+class DSU {
+    constructor(n){
+        this.parent = Array.from({ length: n }, (_, i) => i);
+        this.rank = Array(n).fill(1);
+    }
+
+    find(i){
+        if (this.parent[i] !== i){
+            this.parent[i] = this.find(this.parent[i]);
+        }
+        return this.parent[i];
+    }
+
+    unite(x, y) {
+        const s1 = this.find(x);
+        const s2 = this.find(y);
+        if (s1 !== s2) {
+            if (this.rank[s1] < this.rank[s2]) this.parent[s1] = s2;
+                else if (this.rank[s1] > this.rank[s2]) this.parent[s2] = s1;
+                else {
+                    this.parent[s2] = s1;
+                    this.rank[s1]++;
+                }
+        }
+    }
+
+}
+
+
+drawPoints(document.getElementById("map"), GRIDSIZE, points);
+drawCellBoundaries(document.getElementById("map"), map);
+console.log(kruskalsMST(points, map));
+//drawCellColors(document.getElementById("map"), map, r => map.elevation[r] < 0.5? "hsl(240, 30%, 50%)" : "hsl(90, 20%, 50%)");

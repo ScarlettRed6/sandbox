@@ -2,7 +2,15 @@
 
 - POSTGRESQL(psql) COMMANDS -
 
+    \dt
+    \d
+    
 
+
+My setup usually
+    CREATE DATABASE <database_name>;
+    GRALL ALL PRIVILEGES ON DATABASE <database_name> TO <user_name>;
+    \c <database_name>   # Goes to database
 
 
 
@@ -215,3 +223,4 @@ CREATE: create a table
     column4 datatype,
     );
 
+ 
