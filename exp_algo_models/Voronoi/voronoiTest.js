@@ -70,7 +70,7 @@ let map = {
     triangles: delaunay.triangles,
     centers: calculateCentroids(points, delaunay)
 };
-
+console.log(`CENTERS ${map.centers}`);
 //Helper runctions
 function triangleOfEdge(e) {
     return Math.floor(e / 3);
@@ -105,7 +105,7 @@ function drawCellBoundaries(canvas, map) {
             ctx.stroke();
         }
     }
-    console.log(map.centers);
+
     ctx.restore();
 }//End of drawCellBoundaries function
 
@@ -165,7 +165,7 @@ function drawCellColors(canvas, map, colorFn) {
 } */
 
 
-//Trying MST with kruskal's algorithm
+//Trying MST with kruskal's algorithm (FAILED)
 function kruskalsMST(vertices, map) {
     let edges = map.halfedges;
     edges.sort((a, b) => a[2] - b[2]);
@@ -216,5 +216,4 @@ class DSU {
 
 drawPoints(document.getElementById("map"), GRIDSIZE, points);
 drawCellBoundaries(document.getElementById("map"), map);
-console.log(kruskalsMST(points, map));
 //drawCellColors(document.getElementById("map"), map, r => map.elevation[r] < 0.5? "hsl(240, 30%, 50%)" : "hsl(90, 20%, 50%)");
