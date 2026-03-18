@@ -1,3 +1,7 @@
+//For gridsize
+const WIDTH = 16;
+const HEIGHT = 16;
+
 let numPoints = 0;
 
 let canvas = document.getElementById("map");
@@ -117,12 +121,12 @@ function poissonDiskSampling(width, height, radius, k = 30) {
 }
 
 //START OF SAMPLINGS(POINTS) GENERATION
-const points = poissonDiskSampling(16, 16, 3, 30);
+const points = poissonDiskSampling(WIDTH, HEIGHT, 3, 30);
 /* const points = randomPoints(10, 10, 3); */
 const delaunay = Delaunator.from(points, loc => loc.x, loc => loc.y);
 
 ctx.save();
-ctx.scale(canvas.width / 16, canvas.height / 16);
+ctx.scale(canvas.width / WIDTH, canvas.height / HEIGHT);
 ctx.fillStyle = randomHSL();
 for (let point of points) {
     const {x, y} = point;
@@ -170,7 +174,7 @@ function drawCellBoundaries(canvas, map) {
     let { points, centers, halfedges, triangles, numEdges} = map;
     let ctx = canvas.getContext('2d');
     ctx.save();
-    ctx.scale(canvas.width / 14, canvas.height / 14);
+    ctx.scale(canvas.width / WIDTH, canvas.height / HEIGHT);
     ctx.lineWidth = 0.02;
     ctx.strokeStyle = "black";
     for (let e = 0; e < numEdges; e++) {
@@ -186,7 +190,7 @@ function drawCellBoundaries(canvas, map) {
     ctx.restore();
 }
 
-drawCellBoundaries(canvas, map);
+//drawCellBoundaries(canvas, map);
 
 //NORMALIZATION AND GRAPHING
 
@@ -323,4 +327,71 @@ function drawMST(canvas, edges, points) {
     ctx.restore();
 }
 
-drawMST(canvas, finalLayoutEdges, points);
+//drawMST(canvas, finalLayoutEdges, points);
+
+//TRY ADDING THE LAYOUTS FOR ROOMS FOR A DUNGEON FLOOR
+
+function generateRooms(points) {
+    return points.map(p => {
+        const width = Math.random() * 2 + 1;
+        const height = Math.random() * 2 + 1;
+
+        return {
+            x: p.x - width / 2,
+            y: p.y - height / 2,
+            width,
+            height,
+            center: p
+        };
+    });
+}
+
+function drawCorridor(p1, p2) {
+    ctx.beginPath();
+
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+
+    ctx.stroke();
+}
+
+function drawCorridors(canvas, edges, rooms) {
+    const ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.scale(canvas.width / WIDTH, canvas.height / HEIGHT);
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 0.05;
+
+    for(let edge of edges) {
+        const r1 = rooms[edge.a];
+        const r2 = rooms[edge.b];
+
+        drawCorridor(r1.center, r2.center);
+    }
+    ctx.restore();
+}
+
+const rooms = generateRooms(points);
+
+//Draw the rooms
+function drawRooms(canvas, rooms) {
+    const ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.scale(canvas.width / 16, canvas.height / 16);
+
+    ctx.fillStyle = randomHSL();
+    ctx.strokeStyle = "blue";
+    ctx.lineWidth = 0.05;
+
+    for(let room of rooms) {
+        ctx.beginPath();
+        ctx.rect(room.x, room.y, room.width, room.height);
+        ctx.fill();
+        ctx.stroke();
+    }
+    ctx.restore();
+}
+
+drawCorridors(canvas, finalLayoutEdges, rooms);
+drawRooms(canvas, rooms);
