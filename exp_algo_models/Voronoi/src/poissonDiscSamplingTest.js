@@ -117,7 +117,7 @@ function poissonDiskSampling(width, height, radius, k = 30) {
 }
 
 //START OF SAMPLINGS(POINTS) GENERATION
-const points = poissonDiskSampling(16, 16, 2, 10);
+const points = poissonDiskSampling(16, 16, 3, 30);
 /* const points = randomPoints(10, 10, 3); */
 const delaunay = Delaunator.from(points, loc => loc.x, loc => loc.y);
 
@@ -279,6 +279,7 @@ function kruskal(nodes, edges) {
         //If nodes 'a' and 'b' are not in the same group, connect them
         if (union(edge.a, edge.b)) {
             mst.push(edge);
+            if (mst.length === nodes.length - 1) break;
         }
     }
 
@@ -297,8 +298,8 @@ function addBackEdges(allEdges, mstEdges, percentage = 0.1) {
 }
 
 
-const mstEdges = kruskal(points, weightedEdges, 0.1);
-const finalLayoutEdges = addBackEdges(weightedEdges, mstEdges);
+const mstEdges = kruskal(points, weightedEdges);
+const finalLayoutEdges = addBackEdges(weightedEdges, mstEdges, 0.15);
 
 console.log(`MST Edges: ${mstEdges.length}`);
 console.log(`Final Edges (with loops): ${finalLayoutEdges.length}`);
