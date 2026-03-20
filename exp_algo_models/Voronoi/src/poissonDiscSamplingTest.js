@@ -1,4 +1,4 @@
-//For gridsize
+//For gridsize for room cells
 const WIDTH = 16;
 const HEIGHT = 16;
 
@@ -395,3 +395,99 @@ function drawRooms(canvas, rooms) {
 
 drawCorridors(canvas, finalLayoutEdges, rooms);
 drawRooms(canvas, rooms);
+
+
+//SNAPPING
+
+function createGrid(width, height) {
+    const grid = [];
+    for (let y = 0; y < height; y++){
+        grid[y] = [];
+        for (let x = 0; x < width; x++) {
+            grid[y][x] = 0;
+        }
+    }
+    return grid;
+}
+
+const GRID_SIZE = 64;
+const grid = createGrid(GRID_SIZE, GRID_SIZE);
+
+function toGrid(value) {
+    return Math.floor(value * (GRID_SIZE / 16));
+}
+
+function carveRooms(grid, rooms) {
+    for (let room of rooms) {
+        const x1 = toGrid(room.x);
+        const y1 = toGrid(room.y);
+        const x2 = toGrid(room.x + room.width);
+        const y2 = toGrid(room.y + room.height);
+
+        for (let y = y1; y <= y2; y++){
+            for (let x = x1; x <= x2; x++){
+                if (grid[y] && grid[y][x] !== undefined) {
+                    grid[y][x] = 1;
+                }
+            }//End of innermost loop
+        }//End of first inner loop
+
+    }
+}
+
+function carveCorridor(grid, p1, p2){
+    let x1 = toGrid(p1.x);
+    let y1 = toGrid(p1.y);
+    let x2 = toGrid(p2.x);
+    let y2 = toGrid(p2.y);
+
+    if (Math.random() < 0.5) {
+        //horizontal to vertical
+        for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+            grid[y1][x] = 1;
+        }
+        for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+            grid[y][x2] = 1;
+        }
+    } else {
+        //vertical to horizontal
+        for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+            grid[y][x1] = 1;
+        }
+        for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+            grid[y2][x] = 1;
+        }
+    }
+}
+
+function carveCorridors(grid, edges, rooms) {
+    for (let edge of edges) {
+        const r1 = rooms[edge.a];
+        const r2 = rooms[edge.b];
+
+        carveCorridor(grid, r1.center, r2.center);
+    }
+}
+
+function drawGrid(canvas, grid) {
+    const ctx = canvas.getContext('2d');
+
+    const tileSize = canvas.width / grid.length;
+
+    for (let y = 0; y < grid.length; y++) {
+        for (let x = 0; x < grid[y].length; x++) {
+
+            if (grid[y][x] === 1) {
+                ctx.fillStyle = "red"; 
+            } else {
+                ctx.fillStyle = "black"; 
+            }
+
+            ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+        }
+    }
+}
+
+/* carveRooms(grid, rooms);
+carveCorridors(grid, finalLayoutEdges, rooms);
+drawGrid(canvas, grid); */
