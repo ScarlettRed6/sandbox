@@ -122,10 +122,10 @@ function poissonDiskSampling(width, height, radius, k = 30) {
 
 //START OF SAMPLINGS(POINTS) GENERATION
 const points = poissonDiskSampling(WIDTH, HEIGHT, 3, 30);
-/* const points = randomPoints(10, 10, 3); */
+/* const points = randomPoints(WIDTH, HEIGHT, 50); */
 const delaunay = Delaunator.from(points, loc => loc.x, loc => loc.y);
 
-ctx.save();
+/* ctx.save();
 ctx.scale(canvas.width / WIDTH, canvas.height / HEIGHT);
 ctx.fillStyle = randomHSL();
 for (let point of points) {
@@ -134,7 +134,7 @@ for (let point of points) {
     ctx.arc(x, y, 0.1, 0, 2 * Math.PI);
     ctx.fill();
 }
-ctx.restore();
+ctx.restore(); */
 console.log(`NUMBER OF POINTS ${numPoints}`);
 
 
@@ -190,7 +190,7 @@ function drawCellBoundaries(canvas, map) {
     ctx.restore();
 }
 
-//drawCellBoundaries(canvas, map);
+/* drawCellBoundaries(canvas, map); */
 
 //NORMALIZATION AND GRAPHING
 
@@ -229,7 +229,6 @@ function removeDuplicateEdges(edges) {
     }
     return Array.from(unique.values());
 }
-
 
 
 function addWeights(edges, points){
@@ -327,7 +326,7 @@ function drawMST(canvas, edges, points) {
     ctx.restore();
 }
 
-//drawMST(canvas, finalLayoutEdges, points);
+/* drawMST(canvas, finalLayoutEdges, points); */
 
 //TRY ADDING THE LAYOUTS FOR ROOMS FOR A DUNGEON FLOOR
 
